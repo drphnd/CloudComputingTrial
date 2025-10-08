@@ -3,18 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Kreait\Firebase\Contract\Database;
+use App\Models\Contact; // Gunakan Model Contact
 
 class ContactController extends Controller
 {
-    protected $database;
-    
-    public function __construct(Database $database)
-    {
-        $this
-        ->database = $database;
-    }
-
     public function create()
     {
         return view('contact');
@@ -22,15 +14,18 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
-        $this->database->getReference('contacts')->push([
-            'nama_pengirim' => $request->input('nama_pengirim'),
-            'email_pengirim' => $request->input('email_pengirim'),
-            'subject_message' => $request->input('subject_message'),
-            'content_message' => $request->input('content_message'),
+        // Validasi input (opsional tapi sangat direkomendasikan)
+        $validatedData = $request->validate([
+            'nama_pengirim' => 'required|string|max:255',
+            'email_pengirim' => 'required|email|max:255',
+            'subject_message' => 'required|string|max:255',
+            'content_message' => 'required|string',
         ]);
 
-        // Mengarahkan ke halaman utama ('/') dengan pesan sukses
+        // Simpan data ke database MySQL menggunakan Model Contact
+        Contact::create($validatedData);
+
+        // Arahkan kembali ke halaman utama dengan pesan sukses
         return redirect('/')->with('success', 'Pesan berhasil dikirim!');
     }
-
 }
