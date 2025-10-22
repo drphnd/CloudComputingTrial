@@ -20,7 +20,7 @@
                         We'd love to hear from you!
                     </p>
                 </div>
-                <form action="/contact" method="POST" action="{{ route('sendMail') }}" class="space-y-6">
+                <form method="POST" action="{{ route('sendMail') }}/contact" class="space-y-6">
                     @csrf
                     <div>
                         <label for="nama_pengirim" class="block text-sm font-medium text-gray-300">Sender's Name</label>

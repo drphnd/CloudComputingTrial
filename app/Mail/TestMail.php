@@ -18,8 +18,9 @@ class TestMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($data)
     {
+        $this->data = $data;
         //membuat kerangka data yang akan dikirimkan ke mail
 
     }
@@ -32,7 +33,7 @@ class TestMail extends Mailable
         return new Envelope(
             subject: $this->data['subject_message'],
             from: 'drphnd@drphnd.team2lesgo.site',
-            to: $this->data['email']
+            to: $this->data['email_pengirim']
         );
     }
 

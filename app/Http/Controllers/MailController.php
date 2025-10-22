@@ -10,6 +10,8 @@ class MailController extends Controller
 {
     //
     public function sendMail(Request $request):void{
+        
         Mail::to($request->email)->send(new TestMail($request));
+
     }
 }
