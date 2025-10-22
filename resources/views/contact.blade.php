@@ -1,3 +1,4 @@
+{{-- drphnd/cloudcomputingtrial/CloudComputingTrial-6fc5ff587881d633a323b32dfc80d352e59395ef/resources/views/contact.blade.php --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -20,7 +21,9 @@
                         We'd love to hear from you!
                     </p>
                 </div>
-                <form method="POST" action="{{ route('sendMail') }}/contact" class="space-y-6">
+                
+                {{-- UBAH BARIS INI --}}
+                <form method="POST" action="/contact" class="space-y-6">
                     @csrf
                     <div>
                         <label for="nama_pengirim" class="block text-sm font-medium text-gray-300">Sender's Name</label>

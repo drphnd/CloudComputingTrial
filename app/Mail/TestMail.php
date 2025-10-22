@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -45,7 +46,10 @@ class TestMail extends Mailable
         return new Content(
             view: 'emailTemplate',
             with:[
-                'nama_pengirim' => $this->data['nama_pengirim']
+                'nama_pengirim' => $this->data['nama_pengirim'],
+            'email_pengirim' => $this->data['email_pengirim'] ?? '', // Tambahkan ?? '' jika bisa null
+            'subject_message' => $this->data['subject_message'] ?? '',
+            'content_message' => $this->data['content_message'] ?? '',
                 ]
         );
     }

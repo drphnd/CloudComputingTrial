@@ -1,9 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Contact; // Gunakan Model Contact
+use App\Models\Contact;
+// TAMBAHKAN 2 BARIS INI
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 
 class ContactController extends Controller
 {
@@ -14,7 +16,7 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input (opsional tapi sangat direkomendasikan)
+        // 1. Validasi input
         $validatedData = $request->validate([
             'nama_pengirim' => 'required|string|max:255',
             'email_pengirim' => 'required|email|max:255',
@@ -22,10 +24,19 @@ class ContactController extends Controller
             'content_message' => 'required|string',
         ]);
 
-        // Simpan data ke database MySQL menggunakan Model Contact
+        // 2. Simpan data ke database
         Contact::create($validatedData);
 
-        // Arahkan kembali ke halaman utama dengan pesan sukses
+        // 3. TAMBAHKAN BLOK PENGIRIMAN EMAIL INI
+        try {
+            // Gunakan $validatedData agar aman
+            Mail::to($validatedData['email_pengirim'])->send(new TestMail($validatedData)); 
+        } catch (\Exception $e) {
+            // (Opsional) Tangani jika email gagal dikirim
+            // return back()->with('error', 'Maaf, email gagal dikirim.');
+        }
+
+        // 4. Arahkan kembali ke halaman utama
         return redirect('/')->with('success', 'Pesan berhasil dikirim!');
     }
 }
