@@ -2,10 +2,10 @@
 
 namespace App\Mail;
 
+use App\Models\Contact; // Pastikan ini ada
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -14,16 +14,15 @@ class TestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    // untuk menyimpan data yang dikirimkan ke mail yang sementara 
-    public $data;
+    public $contact; // Properti untuk menyimpan data kontak
+
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    public function __construct(Contact $contact)
     {
-        $this->data = $data;
-        //membuat kerangka data yang akan dikirimkan ke mail
-
+        // Data $contact dari controller disimpan di sini
+        $this->contact = $contact;
     }
 
     /**
@@ -32,9 +31,7 @@ class TestMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->data['subject_message'],
-            from: 'drphnd@drphnd.team2lesgo.site',
-            to: $this->data['email_pengirim']
+            subject: 'Konfirmasi Registrasi Akun', // <-- Ganti subjek email
         );
     }
 
@@ -43,14 +40,14 @@ class TestMail extends Mailable
      */
     public function content(): Content
     {
+        // 'with' adalah data yang dikirim ke view
         return new Content(
             view: 'emailTemplate',
-            with:[
-                'nama_pengirim' => $this->data['nama_pengirim'],
-            'email_pengirim' => $this->data['email_pengirim'] ?? '', // Tambahkan ?? '' jika bisa null
-            'subject_message' => $this->data['subject_message'] ?? '',
-            'content_message' => $this->data['content_message'] ?? '',
-                ]
+            with: [
+                'full_name' => $this->contact->full_name,
+                'student_email' => $this->contact->student_email,
+                'birthdate' => $this->contact->birthdate,
+            ],
         );
     }
 

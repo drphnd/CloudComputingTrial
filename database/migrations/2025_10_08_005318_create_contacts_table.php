@@ -6,24 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_pengirim');
-            $table->string('email_pengirim');
-            $table->string('subject_message');
-            $table->text('content_message');
-            $table->timestamps(); // Ini akan membuat kolom created_at dan updated_at
+            $table->string('full_name');       
+            $table->string('student_email');  
+            $table->string('password');       
+            $table->date('birthdate');      
+            $table->timestamps();
+            
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
         Schema::dropIfExists('contacts');

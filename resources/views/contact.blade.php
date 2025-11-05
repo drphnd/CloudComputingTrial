@@ -1,61 +1,66 @@
-{{-- drphnd/cloudcomputingtrial/CloudComputingTrial-6fc5ff587881d633a323b32dfc80d352e59395ef/resources/views/contact.blade.php --}}
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 
-        <title>Contact Us</title>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Register Form</div>
+                <div class="card-body">
 
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body class="antialiased bg-black text-white">
-        <div class="flex items-center justify-center min-h-screen">
-            <div class="w-full max-w-md p-8 space-y-8 bg-gray-900 rounded-lg shadow-lg">
-                <div class="text-center">
-                    <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl">Contact Us</h1>
-                    <p class="mt-4 text-lg leading-8 text-gray-300">
-                        We'd love to hear from you!
-                    </p>
+                    <form action="{{ route('contact.store') }}" method="POST">
+                        @csrf
+                        
+                        <div class="form-group mb-3">
+                            <label for="full_name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter your full name" value="{{ old('full_name') }}" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="student_email" class="form-label">Student Email</label>
+                            <input type="email" class="form-control" id="student_email" name="student_email" placeholder="Enter your student email" value="{{ old('student_email') }}" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="birthdate" class="form-label">Birthdate</label>
+                            <input type="date" class="form-control" id="birthdate" name="birthdate" value="{{ old('birthdate') }}" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </form>
                 </div>
-                
-                {{-- UBAH BARIS INI --}}
-                <form method="POST" action="/contact" class="space-y-6">
-                    @csrf
-                    <div>
-                        <label for="nama_pengirim" class="block text-sm font-medium text-gray-300">Sender's Name</label>
-                        <div class="mt-1">
-                            <input type="text" name="nama_pengirim" id="nama_pengirim" autocomplete="name" required class="block w-full px-3 py-2 text-white bg-gray-800 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        </div>
-                    </div>
-                    <div>
-                        <label for="email_pengirim" class="block text-sm font-medium text-gray-300">Sender's Email</label>
-                        <div class="mt-1">
-                            <input id="email_pengirim" name="email_pengirim" type="email" autocomplete="email" required class="block w-full px-3 py-2 text-white bg-gray-800 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        </div>
-                    </div>
-                    <div>
-                        <label for="subject_message" class="block text-sm font-medium text-gray-300">Subject Message</label>
-                        <div class="mt-1">
-                            <input type="text" name="subject_message" id="subject_message" required class="block w-full px-3 py-2 text-white bg-gray-800 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        </div>
-                    </div>
-                    <div>
-                        <label for="content_message" class="block text-sm font-medium text-gray-300">Content Message</label>
-                        <div class="mt-1">
-                            <textarea id="content_message" name="content_message" rows="4" required class="block w-full px-3 py-2 text-white bg-gray-800 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
-                        </div>
-                    </div>
-                    <div>
-                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Send Message
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
-    </body>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

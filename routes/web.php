@@ -5,13 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 // HAPUS BARIS INI: use App\Http\Controllers\MailController;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/contact', [ContactController::class, 'create']);
-Route::post('/contact', [ContactController::class, 'store']); // Ini route yang benar
+// GANTI 'create' MENJADI 'index' DI SINI
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.form');
 
-// HAPUS ROUTE INI:
-// Route::post('/sendMail', [MailController::class, 'sendMail'])
-//     ->name('sendMail');
+// Rute POST sudah benar
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');

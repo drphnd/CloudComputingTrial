@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash; // <-- Tambahkan ini
 
 class Contact extends Model
 {
@@ -12,12 +13,20 @@ class Contact extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
-        'nama_pengirim',
-        'email_pengirim',
-        'subject_message',
-        'content_message',
+        'full_name',
+        'student_email',
+        'password',
+        'birthdate',
     ];
+
+    /**
+     * Mutator untuk mengenkripsi password secara otomatis saat disimpan.
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
 }

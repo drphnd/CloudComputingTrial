@@ -1,42 +1,49 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Contact;
-// TAMBAHKAN 2 BARIS INI
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
 
 class ContactController extends Controller
 {
-    public function create()
+    /**
+     * Tampilkan formulir kontak (registrasi).
+     * Pastikan nama fungsi ini 'index'.
+     */
+    public function index()
     {
         return view('contact');
     }
 
+    /**
+     * Simpan data formulir.
+     */
     public function store(Request $request)
     {
-        // 1. Validasi input
+        // 1. Validasi data baru
         $validatedData = $request->validate([
-            'nama_pengirim' => 'required|string|max:255',
-            'email_pengirim' => 'required|email|max:255',
-            'subject_message' => 'required|string|max:255',
-            'content_message' => 'required|string',
+            'full_name' => 'required|string|max:255',
+            'student_email' => 'required|email|max:255',
+            'password' => 'required|string|min:8|same:confirm_password',
+            'confirm_password' => 'required',
+            'birthdate' => 'required|date',
         ]);
 
-        // 2. Simpan data ke database
-        Contact::create($validatedData);
+        // 2. Buat data baru (password akan di-hash oleh Model)
+        $contact = Contact::create([
+            'full_name' => $validatedData['full_name'],
+            'student_email' => $validatedData['student_email'],
+            'password' => $validatedData['password'],
+            'birthdate' => $validatedData['birthdate'],
+        ]);
 
-        // 3. TAMBAHKAN BLOK PENGIRIMAN EMAIL INI
-        try {
-            // Gunakan $validatedData agar aman
-            Mail::to($validatedData['email_pengirim'])->send(new TestMail($validatedData)); 
-        } catch (\Exception $e) {
-            // (Opsional) Tangani jika email gagal dikirim
-            // return back()->with('error', 'Maaf, email gagal dikirim.');
-        }
+        // 3. Kirim email (Opsional, hapus komentar jika ingin digunakan)
+        Mail::to($contact->student_email)->send(new TestMail($contact));
 
-        // 4. Arahkan kembali ke halaman utama
-        return redirect('/')->with('success', 'Pesan berhasil dikirim!');
+        // 4. Redirect ke URL eksternal setelah sukses
+        return redirect()->away('https://drphnd.team2lesgo.site/');
     }
 }
