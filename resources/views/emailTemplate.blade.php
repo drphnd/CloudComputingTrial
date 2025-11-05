@@ -180,7 +180,7 @@
             </div>
 
             <div class="footer">
-                <p>&copy; {{ date('Y') }} Drphnd. Semua Hak Cipta Dilindungi.</p>
+                <p>&copy; {{ date('Y') }} drphnd@Corp. Semua Hak Cipta Dilindungi.</p>
             </div>
         </div>
     </div>
