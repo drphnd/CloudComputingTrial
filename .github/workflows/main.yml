@@ -52,8 +52,8 @@ jobs:
         run: |
           scp -o StrictHostKeyChecking=no deploy.zip ${{ secrets.TEAM2_DRPHND }}@${{ secrets.TEAM2_DRPHND_HOST }}:/home/${{ secrets.TEAM2_DRPHND }}/deploy.zip
           ssh -o StrictHostKeyChecking=no ${{ secrets.TEAM2_DRPHND }}@${{ secrets.TEAM2_DRPHND_HOST }} "
-            cd /home/${{ secrets.DEPLOY_USER }}/web/drphnd.team2lesgo.site/public_html &&
-            unzip -o /home/${{ secrets.DEPLOY_USER }}/deploy.zip &&
+            cd /home/${{ secrets.TEAM2_DRPHND }}/web/drphnd.team2lesgo.site/public_html &&
+            unzip -o /home/${{ secrets.TEAM2_DRPHND }}/deploy.zip &&
             rm /home/${{ secrets.DEPLOY_USER }}/deploy.zip &&
             php artisan optimize
           "
