@@ -52,8 +52,17 @@ jobs:
         run: |
           scp -o StrictHostKeyChecking=no deploy.zip ${{ secrets.TEAM2_DRPHND }}@${{ secrets.TEAM2_DRPHND_HOST }}:/home/${{ secrets.TEAM2_DRPHND }}/deploy.zip
           ssh -o StrictHostKeyChecking=no ${{ secrets.TEAM2_DRPHND }}@${{ secrets.TEAM2_DRPHND_HOST }} "
-            cd /home/${{ secrets.TEAM2_DRPHND }}/web/drphnd.team2lesgo.site/public_html &&
-            unzip -o /home/${{ secrets.TEAM2_DRPHND }}/deploy.zip &&
-            rm /home/${{ secrets.DEPLOY_USER }}/deploy.zip &&
-            php artisan optimize
+            
+            export DEPLOY_PATH=\"/home/${{ secrets.TEAM2_DRPHND }}/web/drphnd.team2lesgo.site/public_html\" &&
+            export HOME_PATH=\"/home/${{ secrets.TEAM2_DRPHND }}\" &&
+            
+            cd \$DEPLOY_PATH &&
+            unzip -o \$HOME_PATH/deploy.zip &&
+            rm \$HOME_PATH/deploy.zip &&
+            
+            # --- PERBAIKAN DI SINI ---
+            # Gunakan path lengkap ke PHP
+            /usr/bin/php artisan optimize &&
+            /usr/bin/php artisan storage:link &&
+            chmod -R 775 storage bootstrap/cache
           "
